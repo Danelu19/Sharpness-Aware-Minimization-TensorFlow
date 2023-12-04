@@ -143,6 +143,18 @@ def classifier(x, n_classes):
     outputs = Dense(n_classes, activation='softmax', kernel_initializer='he_normal')(x)
     return outputs
 
+class ResNet(Model):
+    def __init__(self, num_classes=10):
+        super(ResNet, self).__init__()
+        self.stem = stem()
+        self.learner = learner()
+        self.classifier = classifier(num_classes)
+
+    def call(self, inputs, training=None, mask=None):
+        x = self.stem(inputs)
+        x = self.learner(x)
+        return self.classifier(x)
+
 #-------------------
 # Model      | n   |
 # ResNet20   | 2   |
